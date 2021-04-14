@@ -2,9 +2,10 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_login/home/noticias_pantalla_tres/bloc/upload_noticias_bloc.dart';
 import 'package:google_login/models/new.dart';
 
-import 'bloc/my_news_bloc.dart';
+// import 'bloc/my_news_bloc.dart';
 
 class PantallaTres extends StatefulWidget {
   PantallaTres({Key key}) : super(key: key);
@@ -14,6 +15,7 @@ class PantallaTres extends StatefulWidget {
 }
 
 class _PantallaTresState extends State<PantallaTres> {
+  UploadNoticiasBloc uploadBloc;
   File slectedImage;
   var autorTc = TextEditingController();
   var tituloTc = TextEditingController();
@@ -21,7 +23,7 @@ class _PantallaTresState extends State<PantallaTres> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<MyNewsBloc, MyNewsState>(
+    return BlocConsumer<UploadNoticiasBloc, UploadNoticiasState>(
         listener: (context, state) {
           if (state is PickedImageState) {
             slectedImage = state.image;
@@ -47,7 +49,7 @@ class _PantallaTresState extends State<PantallaTres> {
           }
         },
         builder: (context, state) {
-          if (state is LoadingState) {
+          if (state is LoadingUploadState) {
             return Center(
               child: CircularProgressIndicator(),
             );
@@ -104,13 +106,14 @@ class _PantallaTresState extends State<PantallaTres> {
             MaterialButton(
               child: Text("Imagen"),
               onPressed: () {
-                BlocProvider.of<MyNewsBloc>(context).add(PickImageEvent());
+                BlocProvider.of<UploadNoticiasBloc>(context)
+                    .add(PickImageEvent());
               },
             ),
             MaterialButton(
               child: Text("Guardar"),
               onPressed: () {
-                BlocProvider.of<MyNewsBloc>(context).add(
+                BlocProvider.of<UploadNoticiasBloc>(context).add(
                   SaveNewElementEvent(
                     noticia: New(
                       author: autorTc.text,

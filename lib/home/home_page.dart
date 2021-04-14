@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_login/bloc/auth_bloc.dart';
 import 'package:google_login/home/noticias_firebase/bloc/my_news_bloc.dart';
 import 'package:google_login/home/noticias_firebase/mis_noticias.dart';
+import 'package:google_login/home/noticias_pantalla_tres/bloc/upload_noticias_bloc.dart';
 import 'noticias_ext_api/noticias_deportes.dart';
 import 'package:google_login/home/noticias_firebase/pantalla_tres.dart';
 
@@ -16,9 +17,9 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   int _currentPageIndex = 0;
   final _titulosList = [
-    "Deportes",
+    "Buscar",
     "Mis noticias",
-    "???",
+    "Subir Noticia",
   ];
   final _pagesList = [
     NoticiasDeportes(),
@@ -35,6 +36,9 @@ class _HomePageState extends State<HomePage> {
               RequestAllNewsEvent(),
             ),
         ),
+        BlocProvider(
+          create: (context) => UploadNoticiasBloc(),
+        )
       ],
       child: Scaffold(
         appBar: AppBar(
@@ -63,7 +67,7 @@ class _HomePageState extends State<HomePage> {
           },
           items: [
             BottomNavigationBarItem(
-              icon: Icon(Icons.sports_kabaddi),
+              icon: Icon(Icons.search),
               label: "${_titulosList[0]}",
             ),
             BottomNavigationBarItem(
@@ -71,7 +75,7 @@ class _HomePageState extends State<HomePage> {
               label: "${_titulosList[1]}",
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.thumb_up),
+              icon: Icon(Icons.upload_rounded),
               label: "${_titulosList[2]}",
             ),
           ],

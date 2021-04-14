@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_login/home/noticias_ext_api/item_noticia.dart';
+import 'package:google_login/home/noticias_pantalla_tres/bloc/upload_noticias_bloc.dart';
 
 import 'bloc/my_news_bloc.dart';
 
@@ -14,7 +15,7 @@ class MisNoticias extends StatefulWidget {
 class _MisNoticiasState extends State<MisNoticias> {
   @override
   Widget build(BuildContext context) {
-    return BlocListener<MyNewsBloc, MyNewsState>(
+    return BlocListener<UploadNoticiasBloc, UploadNoticiasState>(
       listener: (context, state) {
         if (state is SavedNewState) {
           BlocProvider.of<MyNewsBloc>(context).add(RequestAllNewsEvent());
