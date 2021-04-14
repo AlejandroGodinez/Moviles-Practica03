@@ -6,6 +6,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:google_login/models/new.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -41,7 +42,7 @@ class MyNewsBloc extends Bloc<MyNewsEvent, MyNewsState> {
         yield LoadingState();
         await _saveNoticias(event.noticia.copyWith(urlToImage: imageUrl));
         // yield LoadedNewsState(noticiasList: await _getNoticias() ?? []);
-        yield SavedNewState();
+        yield SavedNewState(); //escuchar por este estado los cambios
       } else {
         yield ErrorMessageState(errorMsg: "No se pudo guardar la imagen");
       }

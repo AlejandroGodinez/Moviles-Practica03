@@ -14,9 +14,13 @@ class MisNoticias extends StatefulWidget {
 class _MisNoticiasState extends State<MisNoticias> {
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => MyNewsBloc()..add(RequestAllNewsEvent()),
-      child: BlocConsumer<MyNewsBloc, MyNewsState>(
+    return BlocListener<MyNewsBloc, MyNewsState>(
+        listener: (context, state){
+          if(state is SavedNewState){
+            BlocProvider.of<MyNewsBloc>(context).add(RequestAllNewsEvent());
+          }
+        },
+        child: BlocConsumer<MyNewsBloc, MyNewsState>(
         listener: (context, state) {
           if (state is LoadingState) {
             ScaffoldMessenger.of(context)
@@ -34,7 +38,7 @@ class _MisNoticiasState extends State<MisNoticias> {
                   content: Text("${state.errorMsg}"),
                 ),
               );
-          }
+          } 
         },
         builder: (context, state) {
           if (state is LoadedNewsState) {
@@ -48,6 +52,6 @@ class _MisNoticiasState extends State<MisNoticias> {
           return Center(child: CircularProgressIndicator());
         },
       ),
-    );
+      );
   }
 }

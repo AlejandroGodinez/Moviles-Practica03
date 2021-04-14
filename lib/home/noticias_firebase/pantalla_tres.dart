@@ -14,7 +14,6 @@ class PantallaTres extends StatefulWidget {
 }
 
 class _PantallaTresState extends State<PantallaTres> {
-  MyNewsBloc newsBloc;
   File slectedImage;
   var autorTc = TextEditingController();
   var tituloTc = TextEditingController();
@@ -22,12 +21,7 @@ class _PantallaTresState extends State<PantallaTres> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) {
-        newsBloc = MyNewsBloc();
-        return newsBloc;
-      },
-      child: BlocConsumer<MyNewsBloc, MyNewsState>(
+    return BlocConsumer<MyNewsBloc, MyNewsState>(
         listener: (context, state) {
           if (state is PickedImageState) {
             slectedImage = state.image;
@@ -60,7 +54,6 @@ class _PantallaTresState extends State<PantallaTres> {
           }
           return _createForm();
         },
-      ),
     );
   }
 
@@ -111,13 +104,13 @@ class _PantallaTresState extends State<PantallaTres> {
             MaterialButton(
               child: Text("Imagen"),
               onPressed: () {
-                newsBloc.add(PickImageEvent());
+                BlocProvider.of<MyNewsBloc>(context).add(PickImageEvent());
               },
             ),
             MaterialButton(
               child: Text("Guardar"),
               onPressed: () {
-                newsBloc.add(
+                BlocProvider.of<MyNewsBloc>(context).add(
                   SaveNewElementEvent(
                     noticia: New(
                       author: autorTc.text,
