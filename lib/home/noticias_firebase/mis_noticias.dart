@@ -15,12 +15,12 @@ class _MisNoticiasState extends State<MisNoticias> {
   @override
   Widget build(BuildContext context) {
     return BlocListener<MyNewsBloc, MyNewsState>(
-        listener: (context, state){
-          if(state is SavedNewState){
-            BlocProvider.of<MyNewsBloc>(context).add(RequestAllNewsEvent());
-          }
-        },
-        child: BlocConsumer<MyNewsBloc, MyNewsState>(
+      listener: (context, state) {
+        if (state is SavedNewState) {
+          BlocProvider.of<MyNewsBloc>(context).add(RequestAllNewsEvent());
+        }
+      },
+      child: BlocConsumer<MyNewsBloc, MyNewsState>(
         listener: (context, state) {
           if (state is LoadingState) {
             ScaffoldMessenger.of(context)
@@ -38,20 +38,25 @@ class _MisNoticiasState extends State<MisNoticias> {
                   content: Text("${state.errorMsg}"),
                 ),
               );
-          } 
+          }
         },
         builder: (context, state) {
           if (state is LoadedNewsState) {
-            return ListView.builder(
-              itemCount: state.noticiasList.length,
-              itemBuilder: (BuildContext context, int index) {
-                return ItemNoticia(noticia: state.noticiasList[index]);
+            return RefreshIndicator(
+              onRefresh: () async {
+                BlocProvider.of<MyNewsBloc>(context).add(RequestAllNewsEvent());
               },
+              child: ListView.builder(
+                itemCount: state.noticiasList.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return ItemNoticia(noticia: state.noticiasList[index]);
+                },
+              ),
             );
           }
           return Center(child: CircularProgressIndicator());
         },
       ),
-      );
+    );
   }
 }
