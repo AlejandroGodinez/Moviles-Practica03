@@ -92,12 +92,14 @@ class MyNewsBloc extends Bloc<MyNewsEvent, MyNewsState> {
       return noticias.docs
           .map(
             (element) => New(
-              author: element["author"],
-              title: element["title"],
-              urlToImage: element["urlToImage"],
-              description: element["description"],
-              // source: element["source"],
-              publishedAt: DateTime.parse(element["publishedAt"]),
+              source: null,
+              author: element['author'],
+              title: element['title'],
+              description: element['description'],
+              url: element['url'],
+              urlToImage: element['urlToImage'],
+              publishedAt: DateTime.parse(element['publishedAt']),
+              // content: element['content'],
             ),
           )
           .toList();
