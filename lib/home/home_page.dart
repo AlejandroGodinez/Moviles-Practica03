@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_login/bloc/auth_bloc.dart';
+import 'package:google_login/home/noticias_ext_api/bloc/search_noticias_bloc.dart';
 import 'package:google_login/home/noticias_firebase/bloc/my_news_bloc.dart';
 import 'package:google_login/home/noticias_firebase/mis_noticias.dart';
 import 'package:google_login/home/noticias_pantalla_tres/bloc/upload_noticias_bloc.dart';
@@ -38,6 +39,12 @@ class _HomePageState extends State<HomePage> {
         ),
         BlocProvider(
           create: (context) => UploadNoticiasBloc(),
+        ),
+        BlocProvider(
+          create: (context) => SearchNoticiasBloc()
+            ..add(
+              RequestSportsNewsEvent()
+          ),
         )
       ],
       child: Scaffold(
