@@ -76,7 +76,7 @@ class NoNews extends StatelessWidget {
         ),
         Expanded(
           child: Center(
-            child: Text("No news available"),
+            child: Text("No hay noticias disponibles"),
           ),
         )
       ],
