@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_login/home/noticias_ext_api/bloc/search_noticias_bloc.dart';
-import 'package:google_login/utils/news_repository.dart';
-
+import 'package:google_login/home/noticias_pantalla_tres/bloc/upload_noticias_bloc.dart';
+import 'package:google_login/models/new.dart';
 import 'item_noticia.dart';
 
 class NoticiasDeportes extends StatefulWidget {
@@ -119,7 +119,48 @@ class SearchedNoticias extends StatelessWidget {
           itemBuilder: (context, index) {
             return Center(
                 child: Column(
-              children: [ItemNoticia(noticia: noticias[index])],
+              children: [
+                ItemNoticia(noticia: noticias[index]),
+                Row(
+                  children: [
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+                        child: TextButton.icon(
+                          label: Text("Subir a Mis Noticias",
+                              style: TextStyle(color: Colors.white)),
+                          icon:
+                              Icon(Icons.upload_outlined, color: Colors.white),
+                          style: ButtonStyle(
+                            backgroundColor:
+                                MaterialStateProperty.all<Color>(Colors.blue),
+                          ),
+                          onPressed: () {
+                            BlocProvider.of<UploadNoticiasBloc>(context)
+                                .add(SaveApiNewsEvent(
+                              noticia: New(
+                                  author: noticias[index].author,
+                                  title: noticias[index].title,
+                                  description: noticias[index].description,
+                                  urlToImage: noticias[index].urlToImage,
+                                  content: null,
+                                  source: null,
+                                  url: null,
+                                  publishedAt: noticias[index].publishedAt,
+                                  ),
+                            ));
+
+                             return ScaffoldMessenger.of(context)
+                              ..hideCurrentSnackBar()
+                              ..showSnackBar(SnackBar(
+                                  content: Text("Se ha guardado la noticia")));
+                          },
+                        ),
+                      ),
+                    ),
+                  ],
+                )
+              ],
             ));
           },
         ),

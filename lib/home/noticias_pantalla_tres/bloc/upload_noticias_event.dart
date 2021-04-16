@@ -20,3 +20,11 @@ class SaveNewElementEvent extends UploadNoticiasEvent {
   @override
   List<Object> get props => [noticia];
 }
+
+class SaveApiNewsEvent extends UploadNoticiasEvent {
+  final New noticia;
+
+  SaveApiNewsEvent({@required this.noticia});
+  @override
+  List<Object> get props => [noticia];
+}

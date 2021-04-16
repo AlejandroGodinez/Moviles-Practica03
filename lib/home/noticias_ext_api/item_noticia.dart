@@ -3,11 +3,13 @@ import 'package:google_login/models/new.dart';
 
 class ItemNoticia extends StatelessWidget {
   final New noticia;
+  final String urlImg =
+      'https://lexfe.com.ar/wp-content/uploads/2016/04/dummy-post-horisontal.jpg';
   ItemNoticia({Key key, @required this.noticia}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-// TODO: Cambiar image.network por Extended Image con place holder en caso de error o mientras descarga la imagen
+// Cambiar image.network por Extended Image con place holder en caso de error o mientras descarga la imagen
     return Container(
       child: Padding(
         padding: EdgeInsets.all(6.0),
@@ -17,8 +19,8 @@ class ItemNoticia extends StatelessWidget {
               Expanded(
                 flex: 1,
                 child: Image.network(
-                  "${noticia.urlToImage}",
-                  height: 100,
+                  "${noticia.urlToImage ?? urlImg}",
+                  height: 200,
                   fit: BoxFit.cover,
                 ),
               ),
@@ -62,6 +64,23 @@ class ItemNoticia extends StatelessWidget {
                           fontWeight: FontWeight.w300,
                           fontSize: 12,
                         ),
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          TextButton.icon(
+                            label: Text("Compartir",
+                                style: TextStyle(color: Colors.white)),
+                            icon: Icon(Icons.share_outlined, color: Colors.white),
+                            style: ButtonStyle(
+                              backgroundColor:
+                                  MaterialStateProperty.all<Color>(Colors.blue),
+                            ),
+                            onPressed: () {
+                              print("compartir");
+                            },
+                          ),
+                        ],
                       ),
                     ],
                   ),

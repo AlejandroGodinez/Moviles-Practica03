@@ -27,6 +27,10 @@ class UploadNoticiasBloc
       yield LoadingUploadState();
       _selectedPicture = await _getImage();
       yield PickedImageState(image: _selectedPicture);
+    } else if (event is SaveApiNewsEvent) {
+      yield LoadingUploadState();
+      await _saveNoticias(event.noticia);
+      yield SavedNewState();
     } else if (event is SaveNewElementEvent) {
       // 1) subir archivo a bucket
       // 2) extraer url del archivo
