@@ -1,5 +1,9 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:google_login/models/new.dart';
+import 'package:http/http.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:share/share.dart';
 
 class ItemNoticia extends StatelessWidget {
   final New noticia;
@@ -77,7 +81,7 @@ class ItemNoticia extends StatelessWidget {
                                   MaterialStateProperty.all<Color>(Colors.blue),
                             ),
                             onPressed: () {
-                              print("compartir");
+                              saveAndShare(noticia);
                             },
                           ),
                         ],
@@ -92,4 +96,15 @@ class ItemNoticia extends StatelessWidget {
       ),
     );
   }
+}
+
+Future<Null> saveAndShare(New noticia) async {
+    var response = await get(Uri.parse(noticia.urlToImage));
+    final documentDirectory = (await getExternalStorageDirectory()).path;
+    File imgFile = new File('$documentDirectory/flutter.png');
+    imgFile.writeAsBytesSync(response.bodyBytes);
+
+    Share.shareFiles(['$documentDirectory/flutter.png'],
+        subject: "Noticia para ti",
+        text: "${noticia.title} \n${noticia.description}\n\n ${noticia.url}");
 }
